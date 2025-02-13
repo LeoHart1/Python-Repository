@@ -1,0 +1,80 @@
+import random
+
+ClassMates = ["Leo", "Mason", "Chrisssy", "Gavin", "Nate", "Ryan", "Aidan", "Shahood", "Avery", "Muntag", "Marcos", "Jaiden", "BobbyHill", "BUFORD", "Mackensie", "Morty", "GavinHood", "Eddie", "Carrell", "JimmyF"]
+
+def create_groups(classmates, group_size, cannot_work_together1, cannot_work_together2):
+    random.shuffle(classmates)
+    groups = []
+    current_group = []
+    
+    for student in classmates:
+        if any(student in cannot_work_together1 and other in cannot_work_together1 for other in current_group) or \
+           any(student in cannot_work_together2 and other in cannot_work_together2 for other in current_group):
+            if len(current_group) == group_size:
+                groups.append(current_group)
+                current_group = []
+        current_group.append(student)
+        if len(current_group) == group_size:
+            groups.append(current_group)
+            current_group = []
+    
+    if current_group:
+        groups.append(current_group)
+    
+    return groups
+
+print("~~~~~~~~~~~~~~~~~~~~~~~")
+print("-----------------------")
+print("Welcome To Group Picker")
+print("-----------------------")
+print("~~~~~~~~~~~~~~~~~~~~~~~")
+print("-------------------------------------------------------------------------------")
+print("The Students to Select from are:")
+print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+print(", ".join(ClassMates))
+print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+
+while True:
+    print("Who cannot work together? If there isn't any then enter no (Please put in format name,name)")
+    CannotWorkTogether1 = input().split(",")
+    CannotWorkTogether1 = [name.strip() for name in CannotWorkTogether1]
+
+    print("Who else cannot work together? If there isn't any then enter no (Please put in format name,name)")
+    CannotWorkTogether2 = input().split(",")
+    CannotWorkTogether2 = [name.strip() for name in CannotWorkTogether2]
+
+    # Check if names in cannotWorkTogether are valid
+    InvalidNames1 = [name for name in CannotWorkTogether1 if name not in ClassMates]
+    InvalidNames2 = [name for name in CannotWorkTogether2 if name not in ClassMates]
+    if "no" in CannotWorkTogether1:
+        CannotWorkTogether1 = []
+    elif InvalidNames1:
+        print(f"Invalid names: {', '.join(InvalidNames1)}")
+        continue
+
+    if "no" in CannotWorkTogether2:
+        CannotWorkTogether2 = []
+    elif InvalidNames2:
+        print(f"Invalid names: {', '.join(InvalidNames2)}")
+        continue
+
+    print("How many people do you want in a group? 2, 3, or 4?")
+    userInput = input()
+
+    if userInput in ["2", "3", "4"]:
+        group_size = int(userInput)
+        groups = create_groups(ClassMates, group_size, CannotWorkTogether1, CannotWorkTogether2)
+        for group in groups:
+            print(group)
+    else:
+        print("Invalid input! Please enter 2, 3, or 4.")
+   
+    print("Are you done making groups? y or n")
+    user_completed = input()
+   
+    if user_completed == 'y':
+        break  # Exit the loop if user is done
+    elif user_completed == 'n':
+        continue  # Continue looping if user is not done
+    else:
+        print("Invalid input! Please enter 'y' or 'n'.")
