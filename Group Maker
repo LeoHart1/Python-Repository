@@ -1,61 +1,130 @@
 import random
 
-Class_List = ["Leo", "Mason", "Chris", "Aidan", "Gavin", "Marcos", "Ryan", "Shahood", "Muntag", "Nate", "Jaiden", "Eddie", "Brandon", "Kyle", "Kenny", "Tyler", "Austin", "Avery", "Buford", "Morty"]
-random.shuffle(Class_List)
+# List or Classmates
+Class_List =  ["Leo", "Mason", "Chris", "Aidan", "Gavin", "Marcos", "Ryan", "Shahood", "Muntag", "Nate", "Jaiden", "Eddie", "Brandon", "Kyle", "Kenny", "Tyler", "Austin", "Avery", "Buford", "Morty"]
 
 while True:
+# Welcome Message/List of students to pick from to make a group
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("Welcome To Group Maker")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
     print("Here is the list of students:")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-    print(Class_List)
-
-    exclusions = []
-
-    User_choice = input("Please enter two students that cannot work together (e.g., Leo,Mason) or enter no if there are no restrictions: ")
-    if User_choice.lower() == "no":
-        User_choice = User_choice.split(",")
-        if len(User_choice) == 2 and all(name in Class_List for name in User_choice):
-            exclusions.append(User_choice)
-        else:
-            print("Invalid names, enter 2 names from the list")
-            continue
+    print("Leo")
+    print("Mason")
+    print("Chris")
+    print("Aidan")
+    print("Gavin")
+    print("Marcos")
+    print("Ryan")
+    print("Shahood")
+    print("Muntag")
+    print("Nate")
+    print("Jaiden")
+    print("Eddie")
+    print("Brandon")
+    print("kyle")
+    print("Kenny")
+    print("Tyler")
+    print("Austin")
+    print("Avery")
+    print("Burford")
+    print("Morty")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     while True:
-        User_choice2 = input("Please enter another two students that cannot work together (Example: Gavin,Avery) or enter no if there are no restrictions: ")
-        if User_choice2.lower() == "no":
-            break
+    # Asks What size group
+        print("Group size (2, 3, or 4): ")
+        Group_Size = input().strip()
+
+    # Check to see if group size is okay
+        if Group_Size not in ["2", "3", "4"]:
+            print("Group size is invalid, needs to be 2, 3, or 4")
         else:
-            User_choice2 = User_choice2.split(",")
-            if len(User_choice2) == 2 and all(name in Class_List for name in User_choice2):
-                exclusions.append(User_choice2)
+            Group_Size = int(Group_Size)
+            break
+        
+    # Strips the names form list
+    while True:
+        print("Enter first student in restricted pair 1 (Needs to be typed as shown in list of students):")
+        Name_One = input().strip()
+        print("Enter second student in restricted pair 1 (Needs to be typed as shown in list of students):")
+        Name_Two = input().strip()
+
+    # Check to make sure the names are in the Class list
+        if Name_One not in Class_List or Name_Two not in Class_List:
+            print("One or both of the names are not in the student list renter names")
+        elif Name_One == Name_Two:
+            print("The two students must be different")
+        else:
+            break
+    # Strips the names form the class list
+    while True:
+        print("Enter first student in restricted pair 2 (Needs to be typed as shown in list of students):")
+        Name_Three = input().strip()
+        print("Enter second student in restricted pair 2 (Needs to be typed as shown in list of students):")
+        Name_Four = input().strip()
+
+    # Checks to make sure the names are in the class list
+        if Name_Three not in Class_List or Name_Four not in Class_List:
+            print("One or both of the names are not in the student list renter names")
+        elif Name_Three == Name_Four:
+            print("The two students must be different")
+        elif {Name_One, Name_Two} == {Name_Three, Name_Four}:
+            print("The first restricted pair cannot be the same as the second restricted pair")
+        else:
+            break
+
+    #Removes Names of students who can't work together from the class list
+    Class_List.remove(Name_One)
+    Class_List.remove(Name_Two)
+    Class_List.remove(Name_Three)
+    Class_List.remove(Name_Four)
+
+    # Shuffles the rest of the students in the class
+    random.shuffle(Class_List)
+
+    # Creates a list for the Groups
+    Groups = []
+
+    # puts the four names into separate groups
+    Group_One = [Name_One]
+    Group_Two = [Name_Two]
+    Group_Three = [Name_Three]
+    Group_Four = [Name_Four]
+
+    # Starts putting unrestricted student into groups
+    for Student in Class_List:
+        if len(Group_One) < Group_Size:
+            Group_One.append(Student)
+        elif len(Group_Two) < Group_Size:
+            Group_Two.append(Student)
+        elif len(Group_Three) < Group_Size:
+            Group_Three.append(Student)
+        elif len(Group_Four) < Group_Size:
+            Group_Four.append(Student)
+        else:
+
+    # If all four of the groups are full it will make a group
+            if len(Groups) == 0 or len(Groups[-1]) == Group_Size:
+                Groups.append([Student])
             else:
-                print("Invalid names, please enter 2 from the list")
-            continue
+                Groups[-1].append(Student)
 
-    groups2 = [group for group in [Class_List[i:i+2] for i in range(0, len(Class_List), 2)] if not any(set(exclusion).issubset(group) for exclusion in exclusions)]
-    groups3 = [group for group in [Class_List[i:i+3] for i in range(0, len(Class_List), 3)] if not any(set(exclusion).issubset(group) for exclusion in exclusions)]
-    groups4 = [group for group in [Class_List[i:i+4] for i in range(0, len(Class_List), 4)] if not any(set(exclusion).issubset(group) for exclusion in exclusions)]
+    # Puts the four groups into the list
+    Groups.insert(0, Group_One)
+    Groups.insert(1, Group_Two)
+    Groups.insert(2, Group_Three)
+    Groups.insert(3, Group_Four)
 
-    User_choice = input("Please enter a group size of 2, 3, or 4: ")
+    # Prints your created groups with restrictions
+    print("Your groups are:")
+    for Group in Groups:
+        print(Group)
 
-    User_choice = (User_choice)
-    if User_choice == 2:
-        print(groups2)
-    elif User_choice == 3:
-        print(groups3)
-    elif User_choice == 4:
-        print(groups4)
-    else:
-        print("Invalid input, please enter a group size of 2, 3, or 4")
-
-    User_choice = input("Do you want to make another group? (yes or no): ")
-
-    if User_choice.lower() == "yes":
-        continue
-    elif User_choice.lower() == "no":
-        print("Thank you for using group maker")
+    # Asks if you wanna make more groups yes or no
+    print("\nWhould you like to create more groups (yes or no)")
+    Continue_Choice = input().strip()
+    if Continue_Choice != "yes":
+        print("Thank you for using group maker :) ")
         break
-    else:
-        print("Invalid input, enter yes or no")
