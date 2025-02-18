@@ -1,0 +1,18 @@
+Theatre_Seats = [
+    ["$10", "$10", "$10", "$10", "$10", "$10", "$10", "$10", "$10"],
+    ["$20", "$20", "$20", "$20", "$20", "$20", "$20", "$20", "$20"],
+    ["$30", "$30", "$30", "$30", "$30", "$30", "$30", "$30", "$30"],
+    ["$40", "$40", "$40", "$40", "$40", "$40", "$40", "$40", "$40"],
+    ["$45", "$45", "$45", "$45", "$45", "$45", "$45", "$45", "$45"],
+    ["$50", "$50", "$50", "$50", "$50", "$50", "$50", "$50", "$50"]
+]
+
+print("Welcome to the threatre :) ")
+print("here are the seats")
+# Format and print each row
+for row in Theatre_Seats:
+    print(" ".join(f"{seat:>5}" for seat in row))
+
+print("Pick your seat")
+Seat_Selection = input()
+if Seat_Selection == row 1 
