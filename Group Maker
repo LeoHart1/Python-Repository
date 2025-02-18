@@ -28,46 +28,54 @@ while True:
     print("Tyler")
     print("Austin")
     print("Avery")
-    print("Burford")
+    print("Buford")
     print("Morty")
     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     while True:
-    # Asks What size group
+        # Asks What size group
         print("Group size (2, 3, or 4): ")
         Group_Size = input().strip()
 
-    # Check to see if group size is okay
+        # Check to see if group size is okay
         if Group_Size not in ["2", "3", "4"]:
             print("Group size is invalid, needs to be 2, 3, or 4")
         else:
             Group_Size = int(Group_Size)
             break
-        
-    # Strips the names form list
+
+    # Strips the names from list
     while True:
-        print("Enter first student in restricted pair 1 (Needs to be typed as shown in list of students):")
+        print("Enter first student in restricted pair 1 (or type none to skip):")
         Name_One = input().strip()
+        if Name_One.lower() == "none":
+            Name_One = None
+            Name_Two = None
+            break
         print("Enter second student in restricted pair 1 (Needs to be typed as shown in list of students):")
         Name_Two = input().strip()
 
-    # Check to make sure the names are in the Class list
+        # Check to make sure the names are in the Class list
         if Name_One not in Class_List or Name_Two not in Class_List:
-            print("One or both of the names are not in the student list renter names")
+            print("One or both of the names are not in the student list, re-enter names")
         elif Name_One == Name_Two:
             print("The two students must be different")
         else:
             break
-    # Strips the names form the class list
+
     while True:
-        print("Enter first student in restricted pair 2 (Needs to be typed as shown in list of students):")
+        print("Enter first student in restricted pair 2 (or type none to skip):")
         Name_Three = input().strip()
+        if Name_Three.lower() == "none":
+            Name_Three = None
+            Name_Four = None
+            break
         print("Enter second student in restricted pair 2 (Needs to be typed as shown in list of students):")
         Name_Four = input().strip()
 
-    # Checks to make sure the names are in the class list
+        # Checks to make sure the names are in the class list
         if Name_Three not in Class_List or Name_Four not in Class_List:
-            print("One or both of the names are not in the student list renter names")
+            print("One or both of the names are not in the student list, re-enter names")
         elif Name_Three == Name_Four:
             print("The two students must be different")
         elif {Name_One, Name_Two} == {Name_Three, Name_Four}:
@@ -75,56 +83,56 @@ while True:
         else:
             break
 
-    #Removes Names of students who can't work together from the class list
-    Class_List.remove(Name_One)
-    Class_List.remove(Name_Two)
-    Class_List.remove(Name_Three)
-    Class_List.remove(Name_Four)
-
     # Shuffles the rest of the students in the class
     random.shuffle(Class_List)
 
     # Creates a list for the Groups
     Groups = []
 
-    # puts the four names into separate groups
-    Group_One = [Name_One]
-    Group_Two = [Name_Two]
-    Group_Three = [Name_Three]
-    Group_Four = [Name_Four]
+    # puts the four names into separate groups if they are not None
+    Group_One = [Name_One] if Name_One else []
+    Group_Two = [Name_Two] if Name_Two else []
+    Group_Three = [Name_Three] if Name_Three else []
+    Group_Four = [Name_Four] if Name_Four else []
 
-    # Starts putting unrestricted student into groups
+
+    # Starts putting unrestricted students into groups
     for Student in Class_List:
-        if len(Group_One) < Group_Size:
-            Group_One.append(Student)
-        elif len(Group_Two) < Group_Size:
-            Group_Two.append(Student)
-        elif len(Group_Three) < Group_Size:
-            Group_Three.append(Student)
-        elif len(Group_Four) < Group_Size:
-            Group_Four.append(Student)
-        else:
-
-    # If all four of the groups are full it will make a group
-            if len(Groups) == 0 or len(Groups[-1]) == Group_Size:
-                Groups.append([Student])
+        if Student not in [Name_One, Name_Two, Name_Three, Name_Four]:
+            if len(Group_One) < Group_Size:
+                Group_One.append(Student)
+            elif len(Group_Two) < Group_Size:
+                Group_Two.append(Student)
+            elif len(Group_Three) < Group_Size:
+                Group_Three.append(Student)
+            elif len(Group_Four) < Group_Size:
+                Group_Four.append(Student)
             else:
-                Groups[-1].append(Student)
+                if len(Groups) == 0 or len(Groups[-1]) == Group_Size:
+                    Groups.append([Student])
+                else:
+                    Groups[-1].append(Student)
 
-    # Puts the four groups into the list
-    Groups.insert(0, Group_One)
-    Groups.insert(1, Group_Two)
-    Groups.insert(2, Group_Three)
-    Groups.insert(3, Group_Four)
+    # Puts the four groups into the list if they are not empty
+    if Group_One:
+        Groups.insert(0, Group_One)
+    if Group_Two:
+        Groups.insert(1, Group_Two)
+    if Group_Three:
+        Groups.insert(2, Group_Three)
+    if Group_Four:
+        Groups.insert(3, Group_Four)
 
     # Prints your created groups with restrictions
     print("Your groups are:")
     for Group in Groups:
         print(Group)
 
-    # Asks if you wanna make more groups yes or no
-    print("\nWhould you like to create more groups (yes or no)")
+    # Asks if you want to make more groups yes or no
+    print("\nWould you like to create more groups (yes or no)")
     Continue_Choice = input().strip()
-    if Continue_Choice != "yes":
+    if Continue_Choice.lower() != "yes":
         print("Thank you for using group maker :) ")
         break
+
+
